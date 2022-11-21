@@ -11,13 +11,24 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let result = std::fs::read_to_string("test.txt");
+//fn main() -> Result<(), Box<dyn std::error::Error>> {
+    //let result = std::fs::read_to_string("test2.txt");
+//
+    //let content = match result {
+        //Ok(content) => { content },
+        //Err(error) => { return Err(error.into()); }
+    //};
+    //println!("file content: {}", content);
+    //Ok(())
+//}
 
-    let content = match result {
-        Ok(content) => { content },
-        Err(error) => { return Err(error.into()); }
-    };
+
+use anyhow::{Context, Result};
+
+fn main() -> Result<()> {
+    let path = "test.txt";
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!("could not read file `{}`", path))?;
     println!("file content: {}", content);
     Ok(())
 }
